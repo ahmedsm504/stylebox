@@ -1,0 +1,83 @@
+{% extends 'designs/base.html' %}
+{% block title %}تصاميم {{ designer.username }} - StyleBox{% endblock %}
+
+{% block content %}
+  <!-- ✅ بيانات المصمم -->
+  <div class="form-box mb-8">
+    <h1 class="text-2xl font-bold text-blue-600 mb-4">👤 الملف الشخصي: {{ designer.username }}</h1>
+
+    <!-- ✅ صورة البروفايل -->
+    {% if designer.profile.profile_image %}
+      <img src="{{ designer.profile.profile_image.url }}" alt="الصورة الشخصية" class="w-32 h-32 rounded-full mb-4 border mx-auto">
+    {% endif %}
+
+    <!-- ✅ البريد -->
+    {% if designer.email %}
+      <p class="text-sm text-gray-700 mb-1">📧 البريد الإلكتروني: {{ designer.email }}</p>
+    {% endif %}
+
+    <!-- ✅ الموقع -->
+    {% if designer.profile.website %}
+      <p class="text-sm text-gray-700 mb-1">🌐 الموقع: 
+        <a href="{{ designer.profile.website }}" class="text-blue-500 hover:underline" target="_blank">{{ designer.profile.website }}</a>
+      </p>
+    {% endif %}
+
+    <!-- ✅ المدينة -->
+    {% if designer.profile.location %}
+      <p class="text-sm text-gray-700 mb-1">📍 الموقع الجغرافي: {{ designer.profile.location }}</p>
+    {% endif %}
+
+    <!-- ✅ النبذة -->
+    {% if designer.profile.bio %}
+      <p class="text-sm text-gray-700 mt-2">📝 نبذة: {{ designer.profile.bio }}</p>
+    {% else %}
+      <p class="text-sm text-gray-500 italic mt-2">لا توجد نبذة عن المصمم.</p>
+    {% endif %}
+  </div>
+
+  <!-- ✅ تصاميم المصمم -->
+  <h2 class="text-xl font-semibold mb-4">🎨 تصاميم {{ designer.username }}</h2>
+
+  {% if designs %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for design in designs %}
+        <div class="bg-white shadow rounded-lg p-4 flex flex-col justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-blue-600 mb-1">{{ design.name }}</h2>
+            <p class="text-sm text-gray-500 mb-2">النوع: {{ design.get_design_type_display }}</p>
+
+            <!-- ✅ المعاينة الحية -->
+            <div class="preview-box">
+              <iframe 
+                id="preview-iframe-{{ design.id }}" 
+                class="w-full h-48 border rounded bg-white"
+                onload="
+                  const iframe = this;
+                  const doc = iframe.contentWindow.document;
+                  doc.open();
+                  doc.write(`<!DOCTYPE html><html><head><style>{{ design.css_code|escapejs }}</style></head><body style='margin:0;padding:1rem;'>{{ design.html_code|escapejs }}</body></html>`); 
+                  doc.close();
+                ">
+              </iframe>
+            </div>
+          </div>
+
+          <div class="text-right mt-3">
+            <a href="{% url 'design_detail' design.pk %}" class="text-sm text-blue-500 hover:underline">👁 عرض التفاصيل</a>
+          </div>
+
+          {% if request.user == design.creator %}
+            <a href="{% url 'edit_design' design.pk %}" class="btn-primary mt-2 inline-block">✏️ تعديل التصميم</a>
+          {% endif %}
+
+          <div class="text-sm text-gray-600 mt-3">
+            🕒 بتاريخ: {{ design.created_at|date:"Y-m-d H:i" }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-gray-500">لا توجد تصاميم لهذا المصمم حتى الآن.</p>
+  {% endif %}
+{% endblock %}

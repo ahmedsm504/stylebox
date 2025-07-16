@@ -1,0 +1,41 @@
+<!-- design_detail.html -->
+{% extends 'designs/base.html' %}
+{% block title %}{{ design.name }} - StyleBox{% endblock %}
+
+{% block content %}
+<div class="form-box">
+  <h1 class="text-2xl font-bold text-blue-600 mb-2">{{ design.name }}</h1>
+  <p class="text-sm text-gray-500 mb-1">النوع: {{ design.get_design_type_display }}</p>
+  <p class="text-gray-700 text-sm mb-4">{{ design.description|default:"بدون وصف" }}</p>
+
+  <!-- ✅ المعاينة الحية باستخدام iframe -->
+  <div class="preview-box">
+    <iframe 
+      id="preview-iframe-{{ design.id }}" 
+      class="w-full h-64 border rounded bg-white"
+      onload="
+        const iframe = this;
+        const doc = iframe.contentWindow.document;
+        doc.open();
+        doc.write(`<!DOCTYPE html><html><head><style>{{ design.css_code|escapejs }}</style></head><body style='margin:0;padding:1rem;'>{{ design.html_code|escapejs }}</body></html>`);
+        doc.close();
+      ">
+    </iframe>
+  </div>
+
+  <!-- أزرار النسخ -->
+  <div class="flex gap-2 mb-4">
+    <button class="btn-copy" onclick="copyToClipboard(`{{ design.html_code|escapejs }}`)">📋 نسخ HTML</button>
+    <button class="btn-copy" onclick="copyToClipboard(`{{ design.css_code|escapejs }}`)">📋 نسخ CSS</button>
+  </div>
+
+  <!-- بيانات المصمم -->
+  <p class="text-sm text-gray-600">
+    👤 المصمم:
+    <a href="{% url 'designer_profile' design.creator.username %}" class="text-blue-500 hover:underline">
+      {{ design.creator.username }}
+    </a><br>
+    🕒 التاريخ: {{ design.created_at|date:"Y-m-d H:i" }}
+  </p>
+</div>
+{% endblock %}

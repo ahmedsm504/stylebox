@@ -1,0 +1,54 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}StyleBox - منصة التصاميم{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/stylebox.css' %}">
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col" style="font-family: 'Cairo', sans-serif;">
+
+    <nav class="bg-white shadow">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold text-blue-600">StyleBox</a>
+            <div class="flex gap-4 items-center text-sm">
+                <a href="{% url 'design_list' %}" class="hover:text-blue-500">🏠 الرئيسية</a>
+                <a href="{% url 'create_design' %}" class="hover:text-blue-500">➕ تصميم جديد</a>
+                {% if user.is_authenticated %}
+                  <a href="{% url 'profile' %}" class="text-gray-600 hover:underline">👤 {{ user.username }}</a>
+
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="text-red-500 hover:underline text-sm">تسجيل الخروج</button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}" class="hover:text-blue-500">تسجيل الدخول</a>
+                <a href="{% url 'register' %}" class="hover:text-green-500">حساب جديد</a>
+                {% endif %}
+
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto px-4 py-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-white border-t text-center text-sm py-4 text-gray-500">
+        &copy; {{ now|date:"Y" }} StyleBox - جميع الحقوق محفوظة
+    </footer>
+
+<script src="{% static 'js/stylebox.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

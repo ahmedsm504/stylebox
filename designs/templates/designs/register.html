@@ -1,0 +1,22 @@
+{% extends 'designs/base.html' %}
+{% load static %}
+
+{% block title %}تسجيل حساب جديد - StyleBox{% endblock %}
+
+{% block content %}
+  <div class="form-box">
+    <h2 class="page-title">📝 إنشاء حساب جديد</h2>
+
+    <form method="POST" class="form space-y-4">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <button type="submit" class="btn-primary w-full">📥 إنشاء الحساب</button>
+    </form>
+
+    <p class="text-center text-sm text-gray-600 mt-4">
+      هل لديك حساب بالفعل؟
+      <a href="{% url 'login' %}" class="text-blue-600 hover:underline">تسجيل الدخول</a>
+    </p>
+  </div>
+{% endblock %}

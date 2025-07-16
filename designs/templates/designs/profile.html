@@ -1,0 +1,45 @@
+{% extends 'designs/base.html' %}
+{% block title %}الملف الشخصي - StyleBox{% endblock %}
+
+{% block content %}
+<div class="form-box">
+  <h1 class="text-xl font-bold text-blue-600 mb-4">👤 تعديل الملف الشخصي</h1>
+
+  <form method="post" class="form">
+    {% csrf_token %}
+
+    <!-- user_form -->
+    {% for field in user_form %}
+      <div class="mb-4">
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <!-- profile_form -->
+    {% for field in profile_form %}
+      <div class="mb-4">
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <!-- زر الحفظ في النص -->
+    <div class="text-center mt-6">
+      <button type="submit" class="btn-primary">💾 حفظ التعديلات</button>
+    </div>
+  </form>
+
+  <!-- روابط تغيير الباسورد وحذف الحساب -->
+  <div class="flex justify-between mt-6 text-sm">
+    <a href="{% url 'password_change' %}" class="text-blue-600 underline">🔐 تغيير كلمة المرور</a>
+    <a href="{% url 'delete_account' %}" class="text-red-500 underline">❌ حذف الحساب نهائيًا</a>
+  </div>
+</div>
+{% endblock %}

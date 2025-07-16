@@ -1,0 +1,20 @@
+{% extends 'designs/base.html' %}
+{% load static %}
+
+{% block title %}تسجيل الدخول - StyleBox{% endblock %}
+
+{% block content %}
+  <div class="form-box">
+    <h2 class="page-title">🔐 تسجيل الدخول</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn-primary w-full mt-4">تسجيل الدخول</button>
+    </form>
+
+    <p class="text-sm text-gray-500 mt-4 text-center">
+      ليس لديك حساب؟ <a href="{% url 'register' %}" class="text-blue-500 hover:underline">إنشاء حساب جديد</a>
+    </p>
+  </div>
+{% endblock %}

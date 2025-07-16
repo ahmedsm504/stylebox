@@ -1,0 +1,65 @@
+{% extends 'designs/base.html' %}
+{% block title %}عرض التصاميم - StyleBox{% endblock %}
+
+{% block content %}
+<h1 class="page-title">🎨 كل التصاميم</h1>
+
+<!-- أزرار الفلاتر -->
+<div class="mb-6 text-center space-x-2 rtl:space-x-reverse">
+  <a href="?" class="filter-btn active">الكل</a>
+  <a href="?type=button" class="filter-btn">أزرار</a>
+  <a href="?type=card" class="filter-btn">كروت</a>
+  <a href="?type=navbar" class="filter-btn">شريط التنقل</a>
+  <a href="?type=header" class="filter-btn">رأس الصفحة</a>
+  <a href="?type=form" class="filter-btn">نموذج</a>
+</div>
+
+<!-- عرض التصاميم -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {% for design in designs %}
+    <div class="design-card bg-white shadow rounded-lg p-5 flex flex-col justify-between">
+      <div>
+        <h2 class="text-xl font-bold text-blue-600 mb-1">{{ design.name }}</h2>
+        <p class="text-sm text-gray-500 mb-2">النوع: {{ design.get_design_type_display }}</p>
+        <p class="text-gray-700 text-sm mb-3">{{ design.description|default:"بدون وصف" }}</p>
+
+        <!-- المعاينة الحية باستخدام iframe -->
+        <div class="preview-box">
+          <iframe 
+            id="preview-iframe-{{ design.id }}" 
+            class="w-full h-48 border rounded bg-white"
+            onload="
+              const iframe = this;
+              const doc = iframe.contentWindow.document;
+              doc.open();
+              doc.write(`<!DOCTYPE html><html><head><style>{{ design.css_code|escapejs }}</style></head><body style='margin:0;padding:1rem;'>{{ design.html_code|escapejs }}</body></html>`);
+              doc.close();
+            ">
+          </iframe>
+        </div>
+
+        <!-- أزرار النسخ -->
+        <div class="flex gap-2 mb-3">
+          <button class="btn-copy" onclick="copyToClipboard(`{{ design.html_code|escapejs }}`)">📋 نسخ HTML</button>
+          <button class="btn-copy" onclick="copyToClipboard(`{{ design.css_code|escapejs }}`)">📋 نسخ CSS</button>
+        </div>
+      </div>
+{% if request.user == design.creator %}
+  <a href="{% url 'edit_design' design.pk %}" class="btn-primary mt-2 inline-block">✏️ تعديل التصميم</a>
+{% endif %}
+
+      <!-- بيانات المصمم -->
+      <div class="text-sm text-gray-600 mt-auto">
+        👤 بواسطة:
+        <a href="{% url 'designer_profile' design.creator.username %}" class="text-blue-500 hover:underline">
+          {{ design.creator.username }}
+        </a><br>
+        🕒 بتاريخ: {{ design.created_at|date:"Y-m-d H:i" }}
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-center text-gray-500 col-span-3">لا توجد تصاميم بعد.</p>
+  {% endfor %}
+  
+</div>
+{% endblock %}

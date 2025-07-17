@@ -96,3 +96,98 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.classList.add('loading');
             submitBtn.textContent = 'جاري تسجيل الدخول...';
         });
+
+
+
+          // Function to detect content type and apply appropriate class
+        function detectContentType(htmlCode, cssCode) {
+            const html = htmlCode.toLowerCase();
+            const css = cssCode.toLowerCase();
+            
+            // Check for different content types
+            if (html.includes('button') || css.includes('button') || 
+                html.includes('btn') || css.includes('btn')) {
+                return 'button-content';
+            }
+            
+            if (html.includes('form') || css.includes('form') || 
+                html.includes('input') || css.includes('input')) {
+                return 'form-content';
+            }
+            
+            if (html.includes('nav') || css.includes('nav') || 
+                html.includes('navbar') || css.includes('navbar')) {
+                return 'navigation-content';
+            }
+            
+            if (html.includes('table') || css.includes('table') || 
+                html.includes('td') || css.includes('td')) {
+                return 'table-content';
+            }
+            
+            if (html.includes('modal') || css.includes('modal') || 
+                html.includes('dialog') || css.includes('dialog')) {
+                return 'modal-content';
+            }
+            
+            if (html.includes('img') || css.includes('img') || 
+                html.includes('image') || css.includes('image')) {
+                return 'image-content';
+            }
+            
+            if (html.includes('card') || css.includes('card') || 
+                html.includes('panel') || css.includes('panel')) {
+                return 'card-content';
+            }
+            
+            // Default to text content
+            return 'text-content';
+        }
+
+        // Function to apply dynamic sizing to Django template cards
+        function applyDynamicSizing() {
+            const designCards = document.querySelectorAll('.design-card');
+            
+            designCards.forEach(card => {
+                const iframe = card.querySelector('.preview-iframe');
+                if (iframe) {
+                    // Wait for iframe to load
+                    iframe.addEventListener('load', function() {
+                        try {
+                            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                            const htmlContent = iframeDoc.documentElement.innerHTML;
+                            
+                            // Extract CSS from style tags
+                            const styleElements = iframeDoc.querySelectorAll('style');
+                            let cssContent = '';
+                            styleElements.forEach(style => {
+                                cssContent += style.textContent;
+                            });
+                            
+                            // Detect content type
+                            const contentType = detectContentType(htmlContent, cssContent);
+                            
+                            // Apply the appropriate class
+                            card.className = `design-card ${contentType}`;
+                            
+                            // Add content type badge
+                            let badge = card.querySelector('.content-type-badge');
+                            if (!badge) {
+                                badge = document.createElement('div');
+                                badge.className = 'content-type-badge';
+                                card.appendChild(badge);
+                            }
+                            badge.textContent = contentType.replace('-content', '').toUpperCase();
+                            
+                        } catch (error) {
+                            console.warn('Could not analyze iframe content:', error);
+                            // Fallback to default sizing
+                            card.className = 'design-card text-content';
+                        }
+                    });
+                }
+            });
+        }
+
+        // Apply dynamic sizing when page loads
+        document.addEventListener('DOMContentLoaded', applyDynamicSizing);

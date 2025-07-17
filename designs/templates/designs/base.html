@@ -20,7 +20,9 @@
 
 <nav class="navbar" id="navbar">
     <div class="navbar-container">
-        <a href="/" class="navbar-logo">StyleBox</a>
+        <a href="/" class="navbar-logo">
+            <img src="{% static 'images/logo.png' %}" alt="SketchStash" class="h-8">
+        </a></a>
         
         <!-- Mobile Menu Toggle -->
         <button class="navbar-toggle" id="navbar-toggle">
@@ -77,7 +79,7 @@
         <div class="footer-container">
             <div class="footer-content">
                 <div>
-                    <h1 class="page-title">StyleBox</h1>
+                    <h1 class="page-title">SketchStash</h1>
                     <p class="footer-description">
                         Connect with us on social media for the latest updates, news, and exclusive content.
                     </p>
@@ -117,7 +119,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p> &copy; {{ now|date:"Y" }} StyleBox - جميع الحقوق محفوظة</p>
+                <p> &copy; {{ now|date:"Y" }} SketchStash - جميع الحقوق محفوظة</p>
             </div>
         </div>
        

@@ -8,6 +8,9 @@ class Design(models.Model):
         ('navbar', 'Navbar'),
         ('header', 'Header'),
         ('form', 'Form'),
+        ('input', 'Input'),
+        ('loader', 'Loader'),
+        ('radio', 'Radio Button'),
         ('other', 'Other'),
     ]
 
@@ -22,16 +25,19 @@ class Design(models.Model):
     def __str__(self):
         return f"{self.name} - {self.design_type}"
 
+
 # designs/models.py
 from django.contrib.auth.models import User
 from django.db import models
 
+# models.py
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
     website = models.URLField(blank=True)
     github = models.URLField(blank=True)
     behance = models.URLField(blank=True)
+    is_approved = models.BooleanField(default=False)  # ⬅️ جديد
 
     def __str__(self):
         return f"{self.user.username} Profile"

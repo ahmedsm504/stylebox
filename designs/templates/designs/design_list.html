@@ -5,16 +5,17 @@
 <h1 class="page-title">🎨 كل التصاميم</h1>
 
 <div class="filter-container">
-    <a href="?" class="filter-btn active">✨ الكل</a>
-    <a href="?type=button" class="filter-btn">🔘 أزرار</a>
-    <a href="?type=card" class="filter-btn">🃏 كروت</a>
-    <a href="?type=navbar" class="filter-btn">🧭 شريط التنقل</a>
-    <a href="?type=header" class="filter-btn">📑 رأس الصفحة</a>
-    <a href="?type=form" class="filter-btn">📝 نموذج</a>
-
-    <!----New filter for loaders  !!!!!!!   ضيفه فالباك!   !!!!!!!!!!!--->
-    <a href="?type=loader" class="filter-btn">⌛ تحميل</a>
+    <a href="?" class="filter-btn {% if not current_type %}active{% endif %}">✨ الكل</a>
+    <a href="?type=button" class="filter-btn {% if current_type == 'button' %}active{% endif %}">🔘 أزرار</a>
+    <a href="?type=card" class="filter-btn {% if current_type == 'card' %}active{% endif %}">🃏 كروت</a>
+    <a href="?type=navbar" class="filter-btn {% if current_type == 'navbar' %}active{% endif %}">🧭 شريط التنقل</a>
+    <a href="?type=header" class="filter-btn {% if current_type == 'header' %}active{% endif %}">📑 رأس الصفحة</a>
+    <a href="?type=form" class="filter-btn {% if current_type == 'form' %}active{% endif %}">📝 نموذج</a>
+    <a href="?type=input" class="filter-btn {% if current_type == 'input' %}active{% endif %}">🖊️ إدخالات</a>
+    <a href="?type=loader" class="filter-btn {% if current_type == 'loader' %}active{% endif %}">⌛ تحميل</a>
+    <a href="?type=radio" class="filter-btn {% if current_type == 'radio' %}active{% endif %}">🔘 اختيار</a>
 </div>
+
 
 <!-- Design Grid -->
 <div class="design-grid">

@@ -2,8 +2,12 @@ from django.shortcuts import render, redirect
 from .forms import DesignForm
 from django.contrib.auth.decorators import login_required
 
+# views.py
 @login_required
 def create_design(request):
+    if not request.user.profile.is_approved:
+        return render(request, 'designs/waiting_approval.html')  # ⬅️ صفحة توضح إن الحساب تحت المراجعة
+
     if request.method == 'POST':
         form = DesignForm(request.POST)
         if form.is_valid():
@@ -25,7 +29,10 @@ def design_list(request):
         designs = Design.objects.filter(design_type=design_type).order_by('-created_at')
     else:
         designs = Design.objects.all().order_by('-created_at')
-    return render(request, 'designs/design_list.html', {'designs': designs})
+    return render(request, 'designs/design_list.html', {
+        'designs': designs,
+        'current_type': design_type  # علشان نتحكم في الـ active button
+    })
 
 
 from django.contrib.auth.forms import UserCreationForm

@@ -1,6 +1,10 @@
 /* ====== الخطوط العامة ====== */
 body {
   font-family: 'Cairo', sans-serif;
+  background-image: linear-gradient(135deg, #75a6d68d 0%, #e2e8f072 100%), url('../images/back1.jpg') !important;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 
@@ -412,6 +416,7 @@ body {
 }
 
 /* Design Cards */
+
 .design-card {
     background: rgba(255, 255, 255, 0.649);
     backdrop-filter: blur(10px);

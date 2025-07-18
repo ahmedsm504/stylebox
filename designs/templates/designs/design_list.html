@@ -2,18 +2,17 @@
 {% block title %}عرض التصاميم - StyleBox{% endblock %}
 
 {% block content %}
-<h1 class="page-title">🎨 كل التصاميم</h1>
+<h1 class="page-title">🎨 التصاميم</h1>
 
 <div class="filter-container">
     <a href="?" class="filter-btn {% if not current_type %}active{% endif %}">✨ الكل</a>
-    <a href="?type=button" class="filter-btn {% if current_type == 'button' %}active{% endif %}">🔘 أزرار</a>
-    <a href="?type=card" class="filter-btn {% if current_type == 'card' %}active{% endif %}">🃏 كروت</a>
-    <a href="?type=navbar" class="filter-btn {% if current_type == 'navbar' %}active{% endif %}">🧭 شريط التنقل</a>
-    <a href="?type=header" class="filter-btn {% if current_type == 'header' %}active{% endif %}">📑 رأس الصفحة</a>
-    <a href="?type=form" class="filter-btn {% if current_type == 'form' %}active{% endif %}">📝 نموذج</a>
-    <a href="?type=input" class="filter-btn {% if current_type == 'input' %}active{% endif %}">🖊️ إدخالات</a>
-    <a href="?type=loader" class="filter-btn {% if current_type == 'loader' %}active{% endif %}">⌛ تحميل</a>
-    <a href="?type=radio" class="filter-btn {% if current_type == 'radio' %}active{% endif %}">🔘 اختيار</a>
+    <a href="?type=button" class="filter-btn {% if current_type == 'button' %}active{% endif %}">🔘 Buttons</a>
+    <a href="?type=radio" class="filter-btn {% if current_type == 'radio' %}active{% endif %}">🔘 Radio Button</a>
+    <a href="?type=input" class="filter-btn {% if current_type == 'input' %}active{% endif %}">🖊️ Input</a>
+    <a href="?type=loader" class="filter-btn {% if current_type == 'loader' %}active{% endif %}">⌛ Loader</a>
+    <a href="?type=card" class="filter-btn {% if current_type == 'card' %}active{% endif %}">🃏 Cards</a>
+    <a href="?type=navbar" class="filter-btn {% if current_type == 'navbar' %}active{% endif %}">🧭 NavBar</a>
+    <a href="?type=form" class="filter-btn {% if current_type == 'form' %}active{% endif %}">📝 Forms</a>
 </div>
 
 
@@ -21,18 +20,20 @@
 <div class="design-grid">
     {% for design in designs %}
         <div class="design-card">
-            <div class="card-content">
-                <h2 class="design-title">{{ design.name }}</h2>
-                
-                <div class="design-type">
+          <div class="card-info">
+
+               <div class="design-type">
                     <span>🏷️</span>
                     <span>{{ design.get_design_type_display }}</span>
-                </div>
+                </div> 
+               <div class="card-content">
+                <h2 class="design-title">{{ design.name }}</h2>
                 
-                <p class="design-description">{{ design.description|default:"بدون وصف متاح لهذا التصميم" }}</p>
-                
+              
+          </div>
+                       
                 <!-- Live Preview -->
-                <div class="preview-box">
+                <div class="">
                     <iframe
                         id="preview-iframe-{{ design.id }}"
                         class="preview-iframe"
@@ -44,7 +45,12 @@
                             <html>
                             <head>
                                 <style>
-                                    body { margin: 0; padding: 1rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+                                    body { margin: 0; padding: 2rem; font-family: -apple-system, BlinkMacSystemFont,
+                                       'Segoe UI', Roboto, sans-serif;       
+                                        align-items: center; display: flex; justify-content: center; 
+                                        border: 1px solid #ead666; border-radius: 1rem;
+                                
+                                      }
                                     {{ design.css_code|escapejs }}
                                 </style>
                             </head>

@@ -1533,4 +1533,15 @@ body {
 
 
 
-        
+.like-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #777;
+}
+
+.like-btn.liked,
+.like-btn:hover {
+  color: #e63946;
+}

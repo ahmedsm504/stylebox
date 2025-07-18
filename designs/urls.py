@@ -20,4 +20,8 @@ urlpatterns = [
     success_url='/profile/'), name='password_change'),
     path('profile/', profile_view, name='profile'),
     path('delete-account/', delete_account, name='delete_account'),
+    # urls.py
+    path('design/<int:design_id>/like/', views.like_design, name='like_design'),
+    path('best-designs/', views.best_designs, name='best_designs'),
+
 ]

@@ -1,19 +1,9 @@
 {% extends 'designs/base.html' %}
-{% block title %}عرض التصاميم - StyleBox{% endblock %}
+{% block title %}أفضل التصاميم - StyleBox{% endblock %}
 
 {% block content %}
-<h1 class="page-title">🎨 التصاميم</h1>
+<h1 class="page-title">🔥 أفضل التصاميم</h1>
 
-<div class="filter-container">
-    <a href="?" class="filter-btn {% if not current_type %}active{% endif %}">✨ الكل</a>
-    <a href="?type=button" class="filter-btn {% if current_type == 'button' %}active{% endif %}">🔘 Buttons</a>
-    <a href="?type=radio" class="filter-btn {% if current_type == 'radio' %}active{% endif %}">🔘 Radio Button</a>
-    <a href="?type=input" class="filter-btn {% if current_type == 'input' %}active{% endif %}">🖊️ Input</a>
-    <a href="?type=loader" class="filter-btn {% if current_type == 'loader' %}active{% endif %}">⌛ Loader</a>
-    <a href="?type=card" class="filter-btn {% if current_type == 'card' %}active{% endif %}">🃏 Cards</a>
-    <a href="?type=navbar" class="filter-btn {% if current_type == 'navbar' %}active{% endif %}">🧭 NavBar</a>
-    <a href="?type=form" class="filter-btn {% if current_type == 'form' %}active{% endif %}">📝 Forms</a>
-</div>
 
 <!-- Design Grid -->
 <div class="design-grid">
@@ -88,9 +78,7 @@
                 <button class="btn {% if design.id in liked_design_ids %}btn-danger{% else %}btn-outline-danger{% endif %} btn-sm like-btn" data-id="{{ design.id }}">
                   ❤️ <span class="like-count">{{ design.like_count }}</span>
                 </button>
-            </form>
-
-            
+              </form>
             {% else %}
               <a href="{% url 'login' %}" class="btn btn-outline-danger btn-sm">
                 ❤️ {{ design.likes }}
@@ -99,9 +87,10 @@
           </div>
         </div>
     {% empty %}
-      <p class="text-center text-gray-500 col-span-3">لا توجد تصاميم بعد.</p>
+      <p class="text-center text-gray-500 col-span-3">لا توجد تصاميم مميزة بعد.</p>
     {% endfor %}
 </div>
+
 <script>
 document.querySelectorAll('.like-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
@@ -130,5 +119,4 @@ document.querySelectorAll('.like-btn').forEach(btn => {
     });
 });
 </script>
-
 {% endblock %}

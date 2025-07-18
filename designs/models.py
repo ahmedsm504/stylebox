@@ -21,9 +21,16 @@ class Design(models.Model):
     css_code = models.TextField()
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='designs')
     created_at = models.DateTimeField(auto_now_add=True)
+    likes = models.PositiveIntegerField(default=0)
+
 
     def __str__(self):
         return f"{self.name} - {self.design_type}"
+    
+    
+    def like_count(self):
+     return self.designlike_set.count()
+
 
 
 # designs/models.py
@@ -41,3 +48,15 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} Profile"
+
+# models.py
+from django.db import models
+from django.contrib.auth.models import User
+
+class DesignLike(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    design = models.ForeignKey('Design', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'design')  # يمنع التكرار

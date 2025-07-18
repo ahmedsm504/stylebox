@@ -123,3 +123,42 @@ def delete_account(request):
         user.delete()
         return redirect('design_list')
     return render(request, 'designs/delete_account.html')
+
+
+# views.py
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+
+# views.py
+from django.http import JsonResponse
+from .models import Design, DesignLike
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
+def like_design(request, design_id):
+    design = get_object_or_404(Design, id=design_id)
+    user = request.user
+
+    # check if user already liked this design
+    like, created = DesignLike.objects.get_or_create(design=design, user=user)
+    if not created:
+        # already liked → remove it
+        like.delete()
+        liked = False
+    else:
+        liked = True
+
+    # new like count
+    like_count = DesignLike.objects.filter(design=design).count()
+
+    return JsonResponse({'liked': liked, 'like_count': like_count})
+
+
+from django.db.models import Count
+
+def best_designs(request):
+    designs = Design.objects.annotate(
+        like_count=Count('designlike')
+    ).filter(like_count__gte=10).order_by('-like_count', '-created_at')
+    return render(request, 'designs/best_designs.html', {'designs': designs})

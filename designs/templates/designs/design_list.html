@@ -10,9 +10,12 @@
     <a href="?type=radio" class="filter-btn {% if current_type == 'radio' %}active{% endif %}">🔘 Radio Button</a>
     <a href="?type=input" class="filter-btn {% if current_type == 'input' %}active{% endif %}">🖊️ Input</a>
     <a href="?type=loader" class="filter-btn {% if current_type == 'loader' %}active{% endif %}">⌛ Loader</a>
+
+    <!------------------------ available sooooon
     <a href="?type=card" class="filter-btn {% if current_type == 'card' %}active{% endif %}">🃏 Cards</a>
     <a href="?type=navbar" class="filter-btn {% if current_type == 'navbar' %}active{% endif %}">🧭 NavBar</a>
     <a href="?type=form" class="filter-btn {% if current_type == 'form' %}active{% endif %}">📝 Forms</a>
+    -->
 </div>
 
 <!-- Design Grid -->
@@ -43,7 +46,7 @@
                             <head>
                                 <style>
                                     body {
-                                        margin: 1rem 1rem;
+                                        margin:0;
                                         padding: 2rem 2rem;
                                         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                                         display: flex;
@@ -51,7 +54,6 @@
                                         align-items: center;
                                         border: 1px solid #ead666;
                                         border-radius: 1rem;
-                                        OVERFLOW: hidden;
                                     }
                                     {{ design.css_code|escapejs }}
                                 </style>

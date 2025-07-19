@@ -543,7 +543,7 @@ body {
 }
 
 .preview-iframe.large-content {
-    min-height: 10rem;
+    min-height: 15rem;
     height: auto;
 }
 

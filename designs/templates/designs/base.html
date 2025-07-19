@@ -38,7 +38,7 @@
             <a href="{% url 'best_designs' %}" class="navbar-link">🔥 أفضل التصاميم</a>
 
             {% if user.is_authenticated %}
-                <div class="navbar-auth">
+                <div class="navbar-menu">
                     <a href="{% url 'designer_profile' user.username %}" class="navbar-link">🎨 تصميماتي</a>
 
                     <a href="{% url 'profile' %}" class="navbar-link navbar-profile">👤 {{ user.username }}</a>
@@ -62,7 +62,7 @@
             <a href="{% url 'create_design' %}" class="navbar-link">➕ تصميم جديد</a>
              <a href="{% url 'best_designs' %}" class="navbar-link">🔥 أفضل التصاميم</a>
             {% if user.is_authenticated %}
-            <a href="{% url 'designer_profile' user.username %}">🎨 تصميماتي</a>
+            <a href="{% url 'designer_profile' user.username %} "class="navbar-link">🎨 تصميماتي</a>
                 <a href="{% url 'profile' %}" class="navbar-link navbar-profile">👤 {{ user.username }}</a>
                 <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}

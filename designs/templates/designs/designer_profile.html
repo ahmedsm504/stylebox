@@ -40,8 +40,8 @@
   <h2 class="text-xl font-semibold mb-4">🎨 تصاميم {{ designer.username }}</h2>
 
   {% if designs %}
-    <div class="design-grid">
-      {% for design in designs %}
+<div class="design-grid">
+    {% for design in designs %}
         <div class="design-card">
           <div class="card-info">
 
@@ -51,13 +51,13 @@
                 </div> 
                <div class="card-content">
                 <h2 class="design-title">{{ design.name }}</h2>
-          </div>
+              </div>
 
             <!-- ✅ المعاينة الحية -->
             <div class="">
               <iframe 
                 id="preview-iframe-{{ design.id }}" 
-                class="w-full h-48 border rounded bg-white"
+                class="preview-iframe"
                 onload="
                   const iframe = this;
                   const doc = iframe.contentWindow.document;

@@ -3,10 +3,14 @@ from .forms import DesignForm
 from django.contrib.auth.decorators import login_required
 
 # views.py
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from .forms import DesignForm
+
 @login_required
 def create_design(request):
     if not request.user.profile.is_approved:
-        return render(request, 'designs/waiting_approval.html')  # ⬅️ صفحة توضح إن الحساب تحت المراجعة
+        return render(request, 'designs/waiting_approval.html')  # ⬅️ الحساب تحت المراجعة
 
     if request.method == 'POST':
         form = DesignForm(request.POST)
@@ -14,9 +18,15 @@ def create_design(request):
             design = form.save(commit=False)
             design.creator = request.user
             design.save()
-            return redirect('design_list')
+
+            action = request.POST.get('action')  # ⬅️ تحديد نوع الزر المضغوط
+            if action == 'save_home':
+                return redirect('design_list')  # 🔁 الرجوع للصفحة الرئيسية
+            elif action == 'save_new':
+                return redirect('create_design')  # 🔁 فتح صفحة إنشاء تصميم جديد
     else:
         form = DesignForm()
+
     return render(request, 'designs/design_create.html', {'form': form})
 
 

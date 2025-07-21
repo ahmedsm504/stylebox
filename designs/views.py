@@ -49,16 +49,18 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('design_list')  # المستخدم مسجل بالفعل
+
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # تسجيل الدخول مباشرة بعد التسجيل
+            login(request, user)  # تسجيل الدخول بعد التسجيل
             return redirect('design_list')
     else:
         form = UserCreationForm()
     return render(request, 'designs/register.html', {'form': form})
-
 
 from django.shortcuts import get_object_or_404
 
@@ -172,3 +174,10 @@ def best_designs(request):
         like_count=Count('designlike')
     ).filter(like_count__gte=10).order_by('-like_count', '-created_at')
     return render(request, 'designs/best_designs.html', {'designs': designs})
+
+from django.contrib.auth.views import LoginView
+
+def custom_login_view(request, *args, **kwargs):
+    if request.user.is_authenticated:
+        return redirect('design_list')  # أو أي صفحة رئيسية عندك
+    return LoginView.as_view(template_name='designs/login.html')(request, *args, **kwargs)

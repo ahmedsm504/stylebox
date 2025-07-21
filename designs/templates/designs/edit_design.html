@@ -2,10 +2,16 @@
 {% block title %}تعديل التصميم - {{ design.name }}{% endblock %}
 
 {% block content %}
-<div class="form-box">
-  <h2 class="page-title">✏️ تعديل التصميم: {{ design.name }}</h2>
 
-  <form method="POST" class="form">
+
+<div class="container-create-design">
+  <div class="main-layout">
+
+    <div class="form-section">
+    <h3 class="page-title">➕ إضافة تصميم جديد</h3>
+     
+    
+    <form method="POST" id="design-form">
     {% csrf_token %}
     <div class="form-group">
       <label for="id_name" class="form-label">اسم التصميم:</label>
@@ -16,7 +22,7 @@
       {{ form.design_type }}
     </div>
     <div class="form-group">
-      <label for="id_description" class="form-label">الوصف:</label>
+      <label for="id_description" class="form-label">وصف التصميم:</label>
       {{ form.description }}
     </div>
     <div class="form-group">
@@ -27,7 +33,30 @@
       <label for="id_css_code" class="form-label">كود CSS:</label>
       {{ form.css_code }}
     </div>
-    <button type="submit" class="btn-primary">💾 حفظ التعديلات</button>
+
+
+    <div class="button-group">
+                        <button type="submit" name="action" value="save_home" class="btn btn-primary">
+                            💾 حفظ والعودة للصفحة الرئيسية
+                        </button>
+                        <button type="submit" name="action" value="save_new" class="btn btn-secondary">
+                            ➕ حفظ وإنشاء جديد
+                        </button>
+                    </div>
+
+                    
   </form>
+
 </div>
+
+        <div class="preview-section">
+                <div class="preview-header">
+                    👀 معاينة التصميم المباشرة
+                </div>
+    <iframe id="live-preview" class="preview-iframe-create"></iframe>
+
+        </div>
+  </div>
+
+
 {% endblock %}
